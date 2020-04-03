@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 class ContactsViewController: UICollectionViewController,LoginViewControllerDelegate,UICollectionViewDelegateFlowLayout {
-    
+
     let cellId = "cellIds"
 
     override func viewDidLoad() {
@@ -100,6 +100,7 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
         let shareButton = UIButton(type: .system)
         shareButton.setImage(#imageLiteral(resourceName: "shareButton").withRenderingMode(.alwaysOriginal), for: .normal)
         shareButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        shareButton.addTarget(self, action: #selector(postViewController), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
     }
     
@@ -119,6 +120,13 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
         
     }
     
+    @objc fileprivate func postViewController(){
+        let registrationController = RegisterEventViewController()
+        
+        present(registrationController, animated: true)
+        
+    }
+    
     @objc fileprivate func handleRefresh(){
         print("Refreshing")
         self.fetchFriends()
@@ -126,7 +134,7 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("HomeController did appear")
+        print("Contacts Controller did appear")
         // you want to kick the user out when they log out
         if Auth.auth().currentUser == nil {
             let vc = RegistrationViewController()
@@ -154,31 +162,30 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
         return cell
     }
 
-    override func collectionView(_ collectionView:UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let user = posts[indexPath.item]
-        let uid = user.uid ?? ""
-        let popViewController = ContactCardViewController()
-        popViewController.titleLabel.text = user.username ?? ""
-        
-        func generateQRCode(from string: String) -> UIImage? {
-            let data = string.data(using: String.Encoding.ascii)
-
-            if let filter = CIFilter(name: "CIQRCodeGenerator") {
-                filter.setValue(data, forKey: "inputMessage")
-                let transform = CGAffineTransform(scaleX: 3, y: 3)
-
-                if let output = filter.outputImage?.transformed(by: transform) {
-                    return UIImage(ciImage: output)
-                }
-            }
-
-            return nil
-        }
-
-        let image = generateQRCode(from: uid)
-        popViewController.profileImageView.image = image
-        self.view.addSubview(popViewController)
-    }
+//    override func collectionView(_ collectionView:UICollectionView, didSelectItemAt indexPath: IndexPath){
+//        let user = posts[indexPath.item]
+//        let uid = user.uid ?? ""
+//        let popViewController = ContactCardViewController()
+//
+//        func generateQRCode(from string: String) -> UIImage? {
+//            let data = string.data(using: String.Encoding.ascii)
+//
+//            if let filter = CIFilter(name: "CIQRCodeGenerator") {
+//                filter.setValue(data, forKey: "inputMessage")
+//                let transform = CGAffineTransform(scaleX: 3, y: 3)
+//
+//                if let output = filter.outputImage?.transformed(by: transform) {
+//                    return UIImage(ciImage: output)
+//                }
+//            }
+//
+//            return nil
+//        }
+//
+//        let image = generateQRCode(from: uid)
+//        popViewController.profileImageView.image = image
+//        self.view.addSubview(popViewController)
+//    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1

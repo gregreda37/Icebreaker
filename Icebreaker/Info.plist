@@ -28,6 +28,8 @@
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app saves photos and videos to your photo library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app saves photos and videos to your photo library</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

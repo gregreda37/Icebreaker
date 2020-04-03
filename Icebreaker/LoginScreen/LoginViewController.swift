@@ -23,6 +23,12 @@ class LoginViewController: UIViewController {
     //lazy var spacer = self.createButton(image:#imageLiteral(resourceName: "spacer") , selector: #selector(handleSignUp))
     lazy var forgotPasswordButton = self.createButton(image:#imageLiteral(resourceName: "forgotPasswordButton") , selector: #selector(handlePasswordReset))
     
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "grayBox")
+        return iv
+    }()
+    
     let emailTextField: CustomTextField = {
         let tf = CustomTextField(padding: 24, height: 50)
         tf.placeholder = "Enter email"
@@ -69,6 +75,18 @@ class LoginViewController: UIViewController {
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
+    
+    let eventRegister: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Register an Event", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.backgroundColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
+        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        button.layer.cornerRadius = 22
+        button.addTarget(self, action: #selector(handleEventRegister), for: .touchUpInside)
+        return button
+    }()
 
     
     lazy var verticalStackView: UIStackView = {
@@ -79,6 +97,7 @@ class LoginViewController: UIViewController {
             passwordTextField,
             loginButton,
             signupButton,
+            eventRegister,
             forgotPasswordButton,
             ])
         sv.axis = .vertical
@@ -133,6 +152,12 @@ class LoginViewController: UIViewController {
     @objc fileprivate func handleSignUp() {
         let loginController = RegistrationViewController()
         loginController.delegate = delegate
+        self.view.endEditing(true)
+        navigationController?.pushViewController(loginController, animated: true)
+    }
+    
+    @objc fileprivate func handleEventRegister() {
+        let loginController = RegisterEventViewController()
         self.view.endEditing(true)
         navigationController?.pushViewController(loginController, animated: true)
     }

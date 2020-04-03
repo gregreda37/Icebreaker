@@ -10,10 +10,19 @@ import UIKit
 import Firebase
 import CoreLocation
 
-class HomeViewController: UICollectionViewController,LoginViewControllerDelegate,UICollectionViewDelegateFlowLayout {
-    
-    let cellId = "cellIds"
+class HomeViewController: UICollectionViewController,LoginViewControllerDelegate,UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate,MyCardViewControllerDelegate,HomeViewControllerHeaderDelegate{
 
+    let cellId = "cellIds"
+    let locationManager = CLLocationManager()
+    
+    var locations = [String]()
+    var longitude: Double?
+    var latitude: Double?
+    
+    var user: User?
+    
+    var isSearching = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,11 +32,93 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
+        collectionView?.register(HomeViewControllerHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
 
         collectionView?.register(UserProfileCell.self, forCellWithReuseIdentifier: cellId)
         
         setupNavigationBarItems()
+        locationServices()
+        fetchCurrentUser()
+        
+        
 
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if Auth.auth().currentUser == nil {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! HomeViewControllerHeader
+            print("non logged in")
+            header.delegate = self
+            return header
+        } else {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! HomeViewControllerHeader
+            print("logged in")
+            header.delegate = self
+            header.searchBar.text = ""
+            return header
+        }
+    }
+    
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 50)
+    }
+
+
+    fileprivate func fetchCurrentUser(){
+        //fetch current user
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
+                if let err = err {
+                    print(err)
+                    return
+                }
+                guard let dictionary = snapshot?.data() else { return }
+                self.user = User(dictionary: dictionary)
+                
+            }
+    }
+    
+  
+    var users = [User]()
+  
+    var filteredUsers = [User]()
+    
+    func searchDidChange(string: String) {
+        self.isSearching = true
+        filteredUsers = self.users.filter { (user) -> Bool in
+            return user.name.contains(string)
+        }
+        self.collectionView?.reloadData()
+        print(string)
+    }
+
+    @objc func locationServices(){
+        self.locationManager.requestAlwaysAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            // Your coordinates go here (lat, lon)
+            let geofenceRegionCenter = CLLocationCoordinate2D(
+                latitude: latitude ?? 1,
+                longitude: longitude ?? 1
+            )
+
+            let geofenceRegion = CLCircularRegion(
+                center: geofenceRegionCenter,
+                radius: 1,
+                identifier: "UniqueIdentifier"
+            )
+
+            self.locationManager.startMonitoring(for: geofenceRegion)
+
+            self.fetchLocalProfiles()
+        }
+
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        locationManager.distanceFilter = 1000
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -36,16 +127,19 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
         print("THESE ARE MY COORDINATES")
         latitude = locValue.latitude
         longitude = locValue.longitude
-
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        Firestore.firestore().collection("users").document(uid).setData(["coordinates":[locValue.latitude,locValue.longitude]], merge: true) { (err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            print("Uploaded")
+        }
         print(locValue.latitude)
         print(locValue.longitude)
-        self.fetchLocalProfiles()
+        
 
     }
-    
-    var locations = [String]()
-    var longitude: Double?
-    var latitude: Double?
     
     fileprivate func fetchLocalProfiles(){
         let query = Firestore.firestore().collection("users")
@@ -81,11 +175,9 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
                 })
             }
         
-        fetchUsers()
+        //fetchUsers()
     }
-    
-    var users = [User]()
-    
+
     fileprivate func fetchUsers(){
         self.users.removeAll()
         let collection = Firestore.firestore().collection("users")
@@ -100,7 +192,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
                 
                 let user = User(dictionary: userDictionary)
                 
-                if user.uid == Auth.auth().currentUser?.uid ?? ""  {
+                if user.uid == Auth.auth().currentUser?.uid ?? "" {
                     
                 } else if self.locations.contains(user.uid ?? "") {
                     self.users.append(user)
@@ -124,22 +216,23 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
         let shareButton = UIButton(type: .system)
         shareButton.setImage(#imageLiteral(resourceName: "shareButton").withRenderingMode(.alwaysOriginal), for: .normal)
         shareButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        shareButton.addTarget(self, action: #selector(presentInvitesViewController), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(postViewController), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: shareButton)
     }
     
-    @objc fileprivate func pushSettingsController(){
-        let settingsViewController = SettingsViewController()
+    func pushSettingsController(){
+        let settingsViewController = UserProfileViewController()
+        settingsViewController.userId = user
         navigationController?.pushViewController(settingsViewController, animated: true)
         
     }
     
-    @objc fileprivate func presentInvitesViewController(){
-        let profileController = SettingsViewController()
-        self.present(UINavigationController(rootViewController: profileController), animated: true, completion: nil)
-
+    @objc fileprivate func postViewController(){
+        let registrationController = RegisterEventViewController()
+        present(registrationController, animated: true)
+        
     }
-    
+
     @objc fileprivate func logout(){
         try? Auth.auth().signOut()
         print("User Signed Out")
@@ -154,22 +247,28 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
     
     private func setupRightNavItems() {
         let postButton = UIButton(type: .system)
-        postButton.setImage(#imageLiteral(resourceName: "newPostButton").withRenderingMode(.alwaysOriginal), for: .normal)
+        postButton.setImage(#imageLiteral(resourceName: "qrTopRightCorner").withRenderingMode(.alwaysOriginal), for: .normal)
         postButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        postButton.addTarget(self, action: #selector(scannerViewController), for: .touchUpInside)
+        postButton.addTarget(self, action: #selector(cardViewController), for: .touchUpInside)
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: postButton)]
         navigationItem.title = "Local Users"
     }
     
-    @objc fileprivate func scannerViewController(){
-        let registrationController = ScannerViewController()
-        present(registrationController, animated: true)
-        
+    @objc fileprivate func cardViewController(){
+        let myCardViewController = MyCardViewController()
+        let image = generateQRCode(from: user?.uid ?? "")
+        myCardViewController.qrCodeView.image = image
+        myCardViewController.loadImage(imageUrl1: user?.imageUrl1 ?? "")
+        myCardViewController.usernameTextField.text = user?.name ?? ""
+        myCardViewController.delegate = self
+        myCardViewController.modalPresentationStyle = .fullScreen
+        present(myCardViewController, animated: true)
     }
     
     @objc fileprivate func handleRefresh(){
         print("Refreshing")
         self.fetchUsers()
+        self.isSearching = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -184,49 +283,72 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
             navController.modalPresentationStyle = .fullScreen
             present(navController, animated: true)
         } else {
+            fetchUsers()
+            self.isSearching = false
+            self.collectionView?.reloadData()
+            
             
         }
 
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return users.count
+        if isSearching == true {
+            return filteredUsers.count
+        } else {
+            return users.count
+        }
     }
-        
+    
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfileCell
-        cell.backgroundColor = UIColor.rgb(red: 248, green: 141, blue: 19)
-        if indexPath.item < users.count {
-            cell.users = users[indexPath.item]
+        if isSearching == true {
+            
+            cell.users = filteredUsers[indexPath.item]
+
+            return cell
+        } else {
+            cell.backgroundColor = UIColor.rgb(red: 248, green: 141, blue: 19)
+            if indexPath.item < users.count {
+                cell.users = users[indexPath.item]
+            }
+            return cell
+            
         }
-        return cell
+    }
+    
+    func generateQRCode(from string: String) -> UIImage? {
+        let data = string.data(using: String.Encoding.ascii)
+
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 3, y: 3)
+
+            if let output = filter.outputImage?.transformed(by: transform) {
+                return UIImage(ciImage: output)
+            }
+        }
+
+        return nil
     }
 
     override func collectionView(_ collectionView:UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let user = users[indexPath.item]
-        let uid = user.uid ?? ""
-        let popViewController = ContactCardViewController()
-        popViewController.titleLabel.text = user.username ?? ""
-        
-        func generateQRCode(from string: String) -> UIImage? {
-            let data = string.data(using: String.Encoding.ascii)
+        if isSearching == true {
+            let user = filteredUsers[indexPath.item]
 
-            if let filter = CIFilter(name: "CIQRCodeGenerator") {
-                filter.setValue(data, forKey: "inputMessage")
-                let transform = CGAffineTransform(scaleX: 3, y: 3)
+            let userProfileController = UserProfileViewController()
+            userProfileController.userId = user
+            navigationController?.pushViewController(userProfileController, animated: true)
+            
+        } else {
+            let user = users[indexPath.item]
 
-                if let output = filter.outputImage?.transformed(by: transform) {
-                    return UIImage(ciImage: output)
-                }
-            }
-
-            return nil
+            let userProfileController = UserProfileViewController()
+            userProfileController.userId = user
+            navigationController?.pushViewController(userProfileController, animated: true)
         }
 
-        let image = generateQRCode(from: uid)
-
-        popViewController.profileImageView.image = image
-        self.view.addSubview(popViewController)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -237,8 +359,8 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width-2
-        return CGSize(width: width, height: width/4)
+        let width = (view.frame.width-2) / 3
+        return CGSize(width: width, height: width)
     }
     
     func didFinishLoggingIn() {

@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F54AB2F2437978700DBB74E /* MyCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB2E2437978700DBB74E /* MyCardViewController.swift */; };
+		1F54AB322437A89000DBB74E /* nsfw.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB312437A89000DBB74E /* nsfw.mlmodel */; };
+		1F54AB342437B38B00DBB74E /* HomeViewControllerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB332437B38B00DBB74E /* HomeViewControllerHeader.swift */; };
 		1FA9602B23E8B536007EF118 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FA9602A23E8B536007EF118 /* GoogleService-Info.plist */; };
 		1FC70DBE23E1F80400FEE040 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC70DBD23E1F80400FEE040 /* AppDelegate.swift */; };
 		1FC70DC523E1F80400FEE040 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC70DC323E1F80400FEE040 /* Main.storyboard */; };
 		1FC70DC823E1F80400FEE040 /* Icebreaker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC70DC623E1F80400FEE040 /* Icebreaker.xcdatamodeld */; };
 		1FC70DCA23E1F80A00FEE040 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FC70DC923E1F80A00FEE040 /* Assets.xcassets */; };
 		1FC70DCD23E1F80A00FEE040 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC70DCB23E1F80A00FEE040 /* LaunchScreen.storyboard */; };
+		1FCACEAE24369871004390A8 /* RegisterEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCACEAD24369871004390A8 /* RegisterEventViewController.swift */; };
+		1FCACEB024377AD4004390A8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCACEAF24377AD3004390A8 /* CustomImageView.swift */; };
+		1FCACEB4243781DC004390A8 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCACEB3243781DC004390A8 /* UserProfileViewController.swift */; };
+		1FCACEB72437825B004390A8 /* UploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCACEB62437825B004390A8 /* UploadCell.swift */; };
 		1FD11E9223E482720034C835 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11E9123E482720034C835 /* HomeViewController.swift */; };
 		1FD11E9523E482E00034C835 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11E9423E482E00034C835 /* LoginViewController.swift */; };
 		1FD11E9723E482EA0034C835 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11E9623E482EA0034C835 /* LoginViewModel.swift */; };
@@ -22,11 +29,8 @@
 		1FD11EA223E485960034C835 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EA123E485960034C835 /* Bindable.swift */; };
 		1FD11EA423E485C00034C835 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EA323E485C00034C835 /* ForgotPasswordViewController.swift */; };
 		1FD11EA723E48F7D0034C835 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EA623E48F7D0034C835 /* UserProfileCell.swift */; };
-		1FD11EA923E48FBB0034C835 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EA823E48FBB0034C835 /* Users.swift */; };
 		1FD11EAB23E4B9FF0034C835 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EAA23E4B9FF0034C835 /* TabBarViewController.swift */; };
-		1FD11EAD23E4BA260034C835 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EAC23E4BA260034C835 /* SettingsViewController.swift */; };
 		1FD11EAF23E4BB280034C835 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD11EAE23E4BB280034C835 /* User.swift */; };
-		1FF050A6240EEA4000BCAB07 /* ContactCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF050A5240EEA4000BCAB07 /* ContactCardViewController.swift */; };
 		1FF050AC240EF8A500BCAB07 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF050AB240EF8A500BCAB07 /* ScannerViewController.swift */; };
 		1FF050AF240EFBD300BCAB07 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF050AE240EFBD300BCAB07 /* ContactsViewController.swift */; };
 		1FF050B1240F00D400BCAB07 /* Error-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FF050B0240F00D400BCAB07 /* Error-sound.mp3 */; };
@@ -35,6 +39,9 @@
 
 /* Begin PBXFileReference section */
 		19609F6B7DDBCABECEA9D142 /* Pods-Icebreaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Icebreaker.release.xcconfig"; path = "Target Support Files/Pods-Icebreaker/Pods-Icebreaker.release.xcconfig"; sourceTree = "<group>"; };
+		1F54AB2E2437978700DBB74E /* MyCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardViewController.swift; sourceTree = "<group>"; };
+		1F54AB312437A89000DBB74E /* nsfw.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = nsfw.mlmodel; sourceTree = "<group>"; };
+		1F54AB332437B38B00DBB74E /* HomeViewControllerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerHeader.swift; sourceTree = "<group>"; };
 		1FA9602A23E8B536007EF118 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FC70DBA23E1F80400FEE040 /* Icebreaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Icebreaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC70DBD23E1F80400FEE040 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +50,10 @@
 		1FC70DC923E1F80A00FEE040 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FC70DCC23E1F80A00FEE040 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FC70DCE23E1F80A00FEE040 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FCACEAD24369871004390A8 /* RegisterEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEventViewController.swift; sourceTree = "<group>"; };
+		1FCACEAF24377AD3004390A8 /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		1FCACEB3243781DC004390A8 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		1FCACEB62437825B004390A8 /* UploadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadCell.swift; sourceTree = "<group>"; };
 		1FD11E9123E482720034C835 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1FD11E9423E482E00034C835 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1FD11E9623E482EA0034C835 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -52,11 +63,8 @@
 		1FD11EA123E485960034C835 /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
 		1FD11EA323E485C00034C835 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		1FD11EA623E48F7D0034C835 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
-		1FD11EA823E48FBB0034C835 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		1FD11EAA23E4B9FF0034C835 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		1FD11EAC23E4BA260034C835 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1FD11EAE23E4BB280034C835 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		1FF050A5240EEA4000BCAB07 /* ContactCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardViewController.swift; sourceTree = "<group>"; };
 		1FF050AB240EF8A500BCAB07 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		1FF050AE240EFBD300BCAB07 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		1FF050B0240F00D400BCAB07 /* Error-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Error-sound.mp3"; sourceTree = "<group>"; };
@@ -76,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F54AB302437979600DBB74E /* MyCard */ = {
+			isa = PBXGroup;
+			children = (
+				1F54AB2E2437978700DBB74E /* MyCardViewController.swift */,
+			);
+			path = MyCard;
+			sourceTree = "<group>";
+		};
 		1FC70DB123E1F80400FEE040 = {
 			isa = PBXGroup;
 			children = (
@@ -97,11 +113,12 @@
 		1FC70DBC23E1F80400FEE040 /* Icebreaker */ = {
 			isa = PBXGroup;
 			children = (
+				1F54AB302437979600DBB74E /* MyCard */,
+				1FCACEB5243781E2004390A8 /* UserProfile */,
 				1FF050AD240EFBBD00BCAB07 /* ContactsViewController */,
 				1FF050AA240EEE6000BCAB07 /* Storyboards */,
 				1FF050A9240EEE5000BCAB07 /* Resources */,
 				1FF050A8240EEE3900BCAB07 /* Structs */,
-				1FF050A7240EEE2E00BCAB07 /* SettingsPage */,
 				1FD11EA523E48F0D0034C835 /* HomeScreen */,
 				1FD11E9323E482C50034C835 /* LoginScreen */,
 				1FC70DC923E1F80A00FEE040 /* Assets.xcassets */,
@@ -112,6 +129,17 @@
 			path = Icebreaker;
 			sourceTree = "<group>";
 		};
+		1FCACEB5243781E2004390A8 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				1F54AB312437A89000DBB74E /* nsfw.mlmodel */,
+				1FF050AB240EF8A500BCAB07 /* ScannerViewController.swift */,
+				1FCACEB3243781DC004390A8 /* UserProfileViewController.swift */,
+				1FCACEB62437825B004390A8 /* UploadCell.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
 		1FD11E9323E482C50034C835 /* LoginScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +147,7 @@
 				1FD11E9423E482E00034C835 /* LoginViewController.swift */,
 				1FD11E9623E482EA0034C835 /* LoginViewModel.swift */,
 				1FD11EA323E485C00034C835 /* ForgotPasswordViewController.swift */,
+				1FCACEAD24369871004390A8 /* RegisterEventViewController.swift */,
 			);
 			path = LoginScreen;
 			sourceTree = "<group>";
@@ -137,23 +166,14 @@
 			children = (
 				1FD11E9123E482720034C835 /* HomeViewController.swift */,
 				1FD11EA623E48F7D0034C835 /* UserProfileCell.swift */,
-				1FF050A5240EEA4000BCAB07 /* ContactCardViewController.swift */,
+				1F54AB332437B38B00DBB74E /* HomeViewControllerHeader.swift */,
 			);
 			path = HomeScreen;
-			sourceTree = "<group>";
-		};
-		1FF050A7240EEE2E00BCAB07 /* SettingsPage */ = {
-			isa = PBXGroup;
-			children = (
-				1FD11EAC23E4BA260034C835 /* SettingsViewController.swift */,
-			);
-			path = SettingsPage;
 			sourceTree = "<group>";
 		};
 		1FF050A8240EEE3900BCAB07 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
-				1FD11EA823E48FBB0034C835 /* Users.swift */,
 				1FD11EAE23E4BB280034C835 /* User.swift */,
 			);
 			path = Structs;
@@ -162,8 +182,8 @@
 		1FF050A9240EEE5000BCAB07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1FCACEAF24377AD3004390A8 /* CustomImageView.swift */,
 				1FD11EAA23E4B9FF0034C835 /* TabBarViewController.swift */,
-				1FF050AB240EF8A500BCAB07 /* ScannerViewController.swift */,
 				1FD11EA123E485960034C835 /* Bindable.swift */,
 				1FD11E9F23E485650034C835 /* CustomTextField.swift */,
 				1FC70DBD23E1F80400FEE040 /* AppDelegate.swift */,
@@ -345,20 +365,24 @@
 				1FD11E9523E482E00034C835 /* LoginViewController.swift in Sources */,
 				1FD11EA423E485C00034C835 /* ForgotPasswordViewController.swift in Sources */,
 				1FD11EA723E48F7D0034C835 /* UserProfileCell.swift in Sources */,
-				1FD11EA923E48FBB0034C835 /* Users.swift in Sources */,
 				1FF050AF240EFBD300BCAB07 /* ContactsViewController.swift in Sources */,
 				1FD11E9C23E483180034C835 /* RegistrationViewModel.swift in Sources */,
 				1FF050AC240EF8A500BCAB07 /* ScannerViewController.swift in Sources */,
 				1FD11E9223E482720034C835 /* HomeViewController.swift in Sources */,
+				1FCACEB024377AD4004390A8 /* CustomImageView.swift in Sources */,
 				1FD11E9A23E483080034C835 /* RegistrationViewController.swift in Sources */,
+				1F54AB2F2437978700DBB74E /* MyCardViewController.swift in Sources */,
 				1FD11EAF23E4BB280034C835 /* User.swift in Sources */,
 				1FC70DC823E1F80400FEE040 /* Icebreaker.xcdatamodeld in Sources */,
-				1FD11EAD23E4BA260034C835 /* SettingsViewController.swift in Sources */,
+				1FCACEAE24369871004390A8 /* RegisterEventViewController.swift in Sources */,
+				1F54AB342437B38B00DBB74E /* HomeViewControllerHeader.swift in Sources */,
+				1FCACEB72437825B004390A8 /* UploadCell.swift in Sources */,
 				1FC70DBE23E1F80400FEE040 /* AppDelegate.swift in Sources */,
+				1FCACEB4243781DC004390A8 /* UserProfileViewController.swift in Sources */,
 				1FD11EAB23E4B9FF0034C835 /* TabBarViewController.swift in Sources */,
 				1FD11E9723E482EA0034C835 /* LoginViewModel.swift in Sources */,
+				1F54AB322437A89000DBB74E /* nsfw.mlmodel in Sources */,
 				1FD11EA023E485650034C835 /* CustomTextField.swift in Sources */,
-				1FF050A6240EEA4000BCAB07 /* ContactCardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

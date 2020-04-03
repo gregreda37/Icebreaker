@@ -13,23 +13,33 @@ struct User{
 
     //defining our properties for our model layer
     var email: String?
-    var name: String?
+    var name: String
     var imageUrl1: String?
-    var major: String?
-    var year: String?
+    var imageUrl2: String?
+    var imageUrl3: String?
+    var work: String?
     var uid: String?
-    var username: String?
+    var phone: String?
+    var school: String?
+    var gender: String?
+    var age: String?
+    var city: String?
     
     
     init(dictionary: [String: Any]) {
         //initialize user here
         self.email = dictionary["email"] as? String
-        self.name = dictionary["username"] as? String
+        self.name = dictionary["name"] as? String ?? ""
         self.uid = dictionary["uid"] as? String ?? ""
         self.imageUrl1 = dictionary["imageUrl1"] as? String
-        self.major = dictionary["major"] as? String ?? ""
-        self.year = dictionary["year"] as? String ?? ""
-        self.username = dictionary["username"] as? String ?? ""
+        self.imageUrl2 = dictionary["imageUrl2"] as? String
+        self.imageUrl3 = dictionary["imageUrl3"] as? String 
+        self.gender = dictionary["gender"] as? String ?? ""
+        self.phone = dictionary["phone"] as? String ?? ""
+        self.work = dictionary["work"] as? String ?? ""
+        self.school = dictionary["school"] as? String ?? ""
+        self.age = dictionary["age"] as? String ?? ""
+        self.city = dictionary["city"] as? String ?? ""
     }
 
 }
