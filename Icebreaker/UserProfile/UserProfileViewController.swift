@@ -30,6 +30,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
     
     var userId: User?
     var user: User?
+    
+    var friends = [String]()
 
     func createButton(selector: Selector) -> UIButton {
         let button = UIButton(type: .system)
@@ -64,6 +66,23 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
         loadUserPhotos()
         setupTapGesture()
         
+        
+    }
+    fileprivate func fetchFriends(){
+        //fetch current user
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        print(uid)
+        Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            guard let dictionary = snapshot?.data() else { return }
+            let friend = dictionary["contacts"]! as? [String]
+            self.friends = friend ?? [""]
+            
+        }
     }
     
     fileprivate func setupTapGesture() {
@@ -166,47 +185,77 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
         } else {
             cell.isUserInteractionEnabled = false
         }
+
         
         switch indexPath.section {
         case 1:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.name
             cell.textField.addTarget(self, action: #selector(handleNameChange), for: .editingChanged)
             
         case 2:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.work
             cell.textField.addTarget(self, action: #selector(handleWorkChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
             
         case 3:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.city
             cell.textField.addTarget(self, action: #selector(handleCityChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
             
         case 4:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.school
             cell.textField.addTarget(self, action: #selector(handleSchoolChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
             
         case 5:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.email
             cell.textField.addTarget(self, action: #selector(handleEmailChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
             
         case 6:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.phone
             cell.textField.addTarget(self, action: #selector(handlePhoneChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+                
+            }
             
         case 7:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.gender
             cell.textField.addTarget(self, action: #selector(handleGenderChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
             
         default:
-            cell.textField.placeholder = ""
+            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.age
             cell.textField.addTarget(self, action: #selector(handleAgeChange), for: .editingChanged)
+            if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
+            } else {
+                cell.textField.isSecureTextEntry = true
+            }
 
         }
         
@@ -298,7 +347,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             collection.updateData([
                 "contacts": FieldValue.arrayUnion([code])
             ])
-            DispatchQueue.main.async {
+            self.fetchFriends()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+1)  {
                 self.addFriendSuccess()
                 
             }
@@ -319,7 +369,9 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
     }
     fileprivate func addFriendSuccess(){
         let sendMailErrorALert = UIAlertController(title: "Success", message: "You have successfully added \(userId?.name ?? "User") to your contacts.", preferredStyle: .alert)
-        let dismiss = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let dismiss = UIAlertAction(title: "Ok", style: .default, handler:{(_: UIAlertAction!) in
+            self.tableView.reloadData()
+        })
         sendMailErrorALert.addAction(dismiss)
         self.present(sendMailErrorALert, animated: true, completion: nil)
     }

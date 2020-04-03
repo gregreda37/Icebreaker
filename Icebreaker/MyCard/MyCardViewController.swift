@@ -107,7 +107,7 @@ class MyCardViewController: UIViewController {
         qrCodeView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
         qrCodeView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         qrCodeView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
+        qrCodeView.layer.cornerRadius = 12
         view.addSubview(orangeImageView)
         view.addSubview(profileImageView)
         

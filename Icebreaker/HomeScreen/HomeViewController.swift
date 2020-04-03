@@ -39,6 +39,8 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
         setupNavigationBarItems()
         locationServices()
         fetchCurrentUser()
+        fetchUsers()
+        
         
         
 
@@ -84,7 +86,24 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
     var users = [User]()
   
     var filteredUsers = [User]()
+    var friends = [String]()
     
+    fileprivate func fetchFriends(){
+        //fetch current user
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        print(uid)
+        Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            guard let dictionary = snapshot?.data() else { return }
+            let friend = dictionary["contacts"]! as? [String]
+            self.friends = friend ?? [""]
+            
+        }
+    }
     func searchDidChange(string: String) {
         self.isSearching = true
         filteredUsers = self.users.filter { (user) -> Bool in
@@ -283,7 +302,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
             navController.modalPresentationStyle = .fullScreen
             present(navController, animated: true)
         } else {
-            fetchUsers()
+            fetchFriends()
             self.isSearching = false
             self.collectionView?.reloadData()
             
@@ -339,6 +358,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
 
             let userProfileController = UserProfileViewController()
             userProfileController.userId = user
+            userProfileController.friends = friends
             navigationController?.pushViewController(userProfileController, animated: true)
             
         } else {
@@ -346,6 +366,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
 
             let userProfileController = UserProfileViewController()
             userProfileController.userId = user
+            userProfileController.friends = friends
             navigationController?.pushViewController(userProfileController, animated: true)
         }
 
