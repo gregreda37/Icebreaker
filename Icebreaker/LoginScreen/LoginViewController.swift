@@ -10,14 +10,21 @@ import UIKit
 import JGProgressHUD
 import LBTATools
 import Firebase
+import GoogleSignIn
 
 protocol LoginViewControllerDelegate {
     func didFinishLoggingIn()
 }
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController,GIDSignInDelegate {
     
     var delegate: LoginViewControllerDelegate?
+    
+    var googleSignInButton: GIDSignInButton = {
+        let tf = GIDSignInButton()
+        tf.addTarget(self, action: #selector(handleGoogleLogin), for: .touchDown)
+        return tf
+    }()
     
     lazy var LogoButton = self.createButton(image:#imageLiteral(resourceName: "splashScreenLogo") , selector: #selector(handleSignUp))
     //lazy var spacer = self.createButton(image:#imageLiteral(resourceName: "spacer") , selector: #selector(handleSignUp))
@@ -76,19 +83,6 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    let eventRegister: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Register an Event", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.backgroundColor = .white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.layer.cornerRadius = 22
-        button.addTarget(self, action: #selector(handleEventRegister), for: .touchUpInside)
-        return button
-    }()
-
-    
     lazy var verticalStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [
             LogoButton,
@@ -97,7 +91,7 @@ class LoginViewController: UIViewController {
             passwordTextField,
             loginButton,
             signupButton,
-            eventRegister,
+            googleSignInButton,
             forgotPasswordButton,
             ])
         sv.axis = .vertical
@@ -172,11 +166,20 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 248, green: 141, blue: 19)
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
+        
         setupGradientLayer()
         setupTapGesture()
         setupLayout()
         setupBindables()
         setupNotificationObservers()
+    }
+    
+    @objc fileprivate func handleGoogleLogin(){
+        GIDSignIn.sharedInstance().signIn()
+        
     }
     
     fileprivate func setupTapGesture() {
@@ -202,7 +205,7 @@ class LoginViewController: UIViewController {
             guard let isFormValid = isFormValid else { return }
             self.loginButton.isEnabled = isFormValid
             self.loginButton.backgroundColor = isFormValid ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : .lightGray
-            self.loginButton.setTitleColor(isFormValid ? .white : .black, for: .normal)
+            self.loginButton.setTitleColor(isFormValid ? .black : .black, for: .normal)
         }
         loginViewModel.isLoggingIn.bind { [unowned self] (isRegistering) in
             if isRegistering == true {
@@ -258,9 +261,62 @@ class LoginViewController: UIViewController {
         
         verticalStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50))
         verticalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-  
-        
-//        view.addSubview(horizontalStackView)
-//        horizontalStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 20, bottom: 0, right: 20))
+    }
+    
+    //Google Sign In
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+            guard let auth = user.authentication else { return }
+            let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+            Auth.auth().signIn(with: credentials) { (authResult, error) in
+        if let error = error {
+            print(error.localizedDescription)
+        } else {
+            print("Login Successful.")
+            //This is where you should add the functionality of successful login
+            //i.e. dismissing this view or push the home view controller etc
+            let user: GIDGoogleUser = GIDSignIn.sharedInstance()!.currentUser
+            let fullName = user.profile.name
+            let email = user.profile.email
+            print(email ?? "")
+            print(user)
+
+            let userCollection = Firestore.firestore().collection("users").document(Auth.auth().currentUser?.uid ?? "")
+            
+            userCollection.getDocument { (document, error) in
+                  if let document = document {
+                      if document.exists {
+                        self.dismiss(animated: true, completion: nil)
+                      } else {
+                        print("Document does not exist")
+                        
+                        let docData: [String : Any] = [
+                            "uid": Auth.auth().currentUser?.uid ?? "",
+                            "email": email ?? "",
+                            "name": fullName ?? "",
+                            "contacts": ["Na8gDGZFeUWT6wP35IZP0OpimFh2"],
+                            "blockedUsers": [],
+                            "coordinates":[40.80544535406943,-74.6063905074148],
+                            "imageUrl1": ""
+
+                        ]
+
+                        Firestore.firestore().collection("users").document(Auth.auth().currentUser?.uid ?? "").setData(docData) { (err) in
+
+                            if let err = err {
+                                print("error", err)
+                                return
+                            }
+                            self.dismiss(animated: true, completion: nil)
+
+                        }
+                      }
+                }
+            }
+        }
+    }
     }
 }

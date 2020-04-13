@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F01876A2440BF3400231CEA /* ReportUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0187692440BF3400231CEA /* ReportUser.swift */; };
+		1F01876C2440E20600231CEA /* SexCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F01876B2440E20600231CEA /* SexCell.swift */; };
 		1F54AB2F2437978700DBB74E /* MyCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB2E2437978700DBB74E /* MyCardViewController.swift */; };
 		1F54AB322437A89000DBB74E /* nsfw.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB312437A89000DBB74E /* nsfw.mlmodel */; };
 		1F54AB342437B38B00DBB74E /* HomeViewControllerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54AB332437B38B00DBB74E /* HomeViewControllerHeader.swift */; };
+		1F9113A42444E5FC002FA2AB /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9113A32444E5FA002FA2AB /* ButtonCell.swift */; };
 		1FA9602B23E8B536007EF118 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FA9602A23E8B536007EF118 /* GoogleService-Info.plist */; };
 		1FC70DBE23E1F80400FEE040 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC70DBD23E1F80400FEE040 /* AppDelegate.swift */; };
 		1FC70DC523E1F80400FEE040 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC70DC323E1F80400FEE040 /* Main.storyboard */; };
@@ -39,9 +42,12 @@
 
 /* Begin PBXFileReference section */
 		19609F6B7DDBCABECEA9D142 /* Pods-Icebreaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Icebreaker.release.xcconfig"; path = "Target Support Files/Pods-Icebreaker/Pods-Icebreaker.release.xcconfig"; sourceTree = "<group>"; };
+		1F0187692440BF3400231CEA /* ReportUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUser.swift; sourceTree = "<group>"; };
+		1F01876B2440E20600231CEA /* SexCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SexCell.swift; sourceTree = "<group>"; };
 		1F54AB2E2437978700DBB74E /* MyCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardViewController.swift; sourceTree = "<group>"; };
 		1F54AB312437A89000DBB74E /* nsfw.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = nsfw.mlmodel; sourceTree = "<group>"; };
 		1F54AB332437B38B00DBB74E /* HomeViewControllerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerHeader.swift; sourceTree = "<group>"; };
+		1F9113A32444E5FA002FA2AB /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCell.swift; path = ../../../../../.Trashes/501/ButtonCell.swift; sourceTree = "<group>"; };
 		1FA9602A23E8B536007EF118 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FC70DBA23E1F80400FEE040 /* Icebreaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Icebreaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC70DBD23E1F80400FEE040 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +142,9 @@
 				1FF050AB240EF8A500BCAB07 /* ScannerViewController.swift */,
 				1FCACEB3243781DC004390A8 /* UserProfileViewController.swift */,
 				1FCACEB62437825B004390A8 /* UploadCell.swift */,
+				1F9113A32444E5FA002FA2AB /* ButtonCell.swift */,
+				1F0187692440BF3400231CEA /* ReportUser.swift */,
+				1F01876B2440E20600231CEA /* SexCell.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -362,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FD11EA223E485960034C835 /* Bindable.swift in Sources */,
+				1F9113A42444E5FC002FA2AB /* ButtonCell.swift in Sources */,
 				1FD11E9523E482E00034C835 /* LoginViewController.swift in Sources */,
 				1FD11EA423E485C00034C835 /* ForgotPasswordViewController.swift in Sources */,
 				1FD11EA723E48F7D0034C835 /* UserProfileCell.swift in Sources */,
@@ -375,11 +385,13 @@
 				1FD11EAF23E4BB280034C835 /* User.swift in Sources */,
 				1FC70DC823E1F80400FEE040 /* Icebreaker.xcdatamodeld in Sources */,
 				1FCACEAE24369871004390A8 /* RegisterEventViewController.swift in Sources */,
+				1F01876A2440BF3400231CEA /* ReportUser.swift in Sources */,
 				1F54AB342437B38B00DBB74E /* HomeViewControllerHeader.swift in Sources */,
 				1FCACEB72437825B004390A8 /* UploadCell.swift in Sources */,
 				1FC70DBE23E1F80400FEE040 /* AppDelegate.swift in Sources */,
 				1FCACEB4243781DC004390A8 /* UserProfileViewController.swift in Sources */,
 				1FD11EAB23E4B9FF0034C835 /* TabBarViewController.swift in Sources */,
+				1F01876C2440E20600231CEA /* SexCell.swift in Sources */,
 				1FD11E9723E482EA0034C835 /* LoginViewModel.swift in Sources */,
 				1F54AB322437A89000DBB74E /* nsfw.mlmodel in Sources */,
 				1FD11EA023E485650034C835 /* CustomTextField.swift in Sources */,
@@ -534,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ukrainianrestoration.Icebreaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -554,7 +566,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ukrainianrestoration.Icebreaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -35,10 +35,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="56P-j3-WgX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3J5-F9-6k2"/>
+                            <constraint firstItem="56P-j3-WgX" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="3J5-F9-6k2"/>
                             <constraint firstAttribute="bottom" secondItem="56P-j3-WgX" secondAttribute="bottom" constant="20" symbolic="YES" id="Gkr-fK-rVU"/>
                             <constraint firstItem="56P-j3-WgX" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="20" symbolic="YES" id="OK9-ML-ei1"/>
-                            <constraint firstItem="56P-j3-WgX" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Pxm-qh-gJw"/>
+                            <constraint firstItem="56P-j3-WgX" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="Pxm-qh-gJw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -49,6 +49,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splashScreenLogo" width="307" height="309"/>
+        <image name="splashScreenLogo" width="306.5" height="308.5"/>
     </resources>
 </document>

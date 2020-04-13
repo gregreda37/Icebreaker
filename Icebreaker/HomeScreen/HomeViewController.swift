@@ -37,12 +37,13 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
         collectionView?.register(UserProfileCell.self, forCellWithReuseIdentifier: cellId)
         
         setupNavigationBarItems()
-        locationServices()
-        fetchCurrentUser()
-        fetchUsers()
-        
-        
-        
+        if Auth.auth().currentUser == nil {
+            
+        } else {
+            //locationServices()
+            fetchCurrentUser()
+            fetchUsers()
+        }
 
     }
     
@@ -104,6 +105,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
             
         }
     }
+    
     func searchDidChange(string: String) {
         self.isSearching = true
         filteredUsers = self.users.filter { (user) -> Bool in
@@ -211,9 +213,10 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
                 
                 let user = User(dictionary: userDictionary)
                 
-                if user.uid == Auth.auth().currentUser?.uid ?? "" {
+                if user.uid == Auth.auth().currentUser?.uid ?? "" || self.user?.blockedUsers?.contains(user.uid ?? "") == true{
                     
-                } else if self.locations.contains(user.uid ?? "") {
+                    //self.locations.contains(user.uid ?? "")
+                } else {
                     self.users.append(user)
                     
                 }
@@ -286,6 +289,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
     
     @objc fileprivate func handleRefresh(){
         print("Refreshing")
+        self.fetchCurrentUser()
         self.fetchUsers()
         self.isSearching = false
     }
@@ -302,6 +306,7 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
             navController.modalPresentationStyle = .fullScreen
             present(navController, animated: true)
         } else {
+            self.fetchCurrentUser()
             fetchFriends()
             self.isSearching = false
             self.collectionView?.reloadData()
@@ -326,15 +331,16 @@ class HomeViewController: UICollectionViewController,LoginViewControllerDelegate
             
             cell.users = filteredUsers[indexPath.item]
 
-            return cell
+            //return cell
         } else {
             cell.backgroundColor = UIColor.rgb(red: 248, green: 141, blue: 19)
             if indexPath.item < users.count {
                 cell.users = users[indexPath.item]
             }
-            return cell
+            //return cell
             
         }
+        return cell
     }
     
     func generateQRCode(from string: String) -> UIImage? {

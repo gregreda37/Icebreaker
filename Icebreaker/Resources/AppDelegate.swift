@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,13 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
 
-
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         let mainVC = TabBarViewController()
         window?.rootViewController = mainVC
         
         return true
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance().handle(url)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

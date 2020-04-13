@@ -21,5 +21,6 @@ pod 'SwiftyJSON', '~> 4.0'
 pod 'JGProgressHUD'
 pod 'LBTATools'
 pod 'PopOverDatePicker'
+pod 'GoogleSignIn'
 
 end

@@ -21,6 +21,12 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     var pingSoundEffect: AVAudioPlayer?
     
     var delegate: ScannerViewControllerDelegate?
+    
+    let boxImageView: UIImageView = {
+        let iv = UIImageView()
+        return iv
+    }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +66,15 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
-
+        
+        view.addSubview(boxImageView)
+        boxImageView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 240, height: 240)
+        boxImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        boxImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        boxImageView.layer.borderWidth = 5
+        boxImageView.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5).cgColor
+    
+        
         captureSession.startRunning()
     }
 
@@ -119,5 +133,22 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
+    }
+}
+
+extension UIImage {
+    func imageWithBorder(width: CGFloat, color: UIColor) -> UIImage? {
+        let square = CGSize(width: min(size.width, size.height) + width * 2, height: min(size.width, size.height) + width * 2)
+        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
+        imageView.contentMode = .center
+        imageView.image = self
+        imageView.layer.borderWidth = width
+        imageView.layer.borderColor = color.cgColor
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
     }
 }

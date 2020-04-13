@@ -35,6 +35,7 @@ class UploadCell: UITableViewCell {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             addSubview(textField)
             textField.fillSuperview()
+
             
         }
         

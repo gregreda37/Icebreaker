@@ -31,6 +31,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
     var userId: User?
     var user: User?
     
+    var sex = "male"
+    
     var friends = [String]()
 
     func createButton(selector: Selector) -> UIButton {
@@ -65,6 +67,17 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
         
         loadUserPhotos()
         setupTapGesture()
+        
+        if userId?.uid == Auth.auth().currentUser?.uid ?? "" {
+            image1Button.setTitle("Add Photo", for: .normal)
+            image2Button.setTitle("Add Photo", for: .normal)
+            image3Button.setTitle("Add Photo", for: .normal)
+        } else {
+            image1Button.setTitle("User has no Photo!", for: .normal)
+            image2Button.setTitle("User has no Photo!", for: .normal)
+            image3Button.setTitle("User has no Photo!", for: .normal)
+            
+        }
         
         
     }
@@ -156,8 +169,10 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             headerLabel.text = "Phone"
         case 7:
             headerLabel.text = "Gender"
-        default:
+        case 8:
             headerLabel.text = "Age"
+        default:
+            headerLabel.text = ""
         }
         return headerLabel
     }
@@ -170,7 +185,7 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+            return 10
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,19 +197,31 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
         
         if userId?.uid == Auth.auth().currentUser?.uid {
             cell.isUserInteractionEnabled = true
+            cell.textField.placeholder = "Update Fields"
         } else {
             cell.isUserInteractionEnabled = false
+            cell.textField.placeholder = "User has not updated"
+        }
+        
+        if indexPath.section == 9 && userId?.uid != Auth.auth().currentUser?.uid {
+            let blockButton = ButtonCell(style: .default, reuseIdentifier: nil)
+            blockButton.blockUserButton.addTarget(self, action: #selector(blockUser), for: .touchUpInside)
+            blockButton.blockUserButton.setTitle("Block User", for: .normal)
+            return blockButton
+        } else if indexPath.section == 9 && userId?.uid == Auth.auth().currentUser?.uid {
+            let blockButton = ButtonCell(style: .default, reuseIdentifier: nil)
+            blockButton.blockUserButton.addTarget(self, action: #selector(deleteProfile), for: .touchUpInside)
+            blockButton.blockUserButton.setTitle("Delete Account", for: .normal)
+            return blockButton
+            
         }
 
-        
         switch indexPath.section {
         case 1:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.name
             cell.textField.addTarget(self, action: #selector(handleNameChange), for: .editingChanged)
             
         case 2:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.work
             cell.textField.addTarget(self, action: #selector(handleWorkChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
@@ -203,7 +230,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         case 3:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.city
             cell.textField.addTarget(self, action: #selector(handleCityChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
@@ -212,7 +238,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         case 4:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.school
             cell.textField.addTarget(self, action: #selector(handleSchoolChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
@@ -221,8 +246,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         case 5:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.email
+            cell.textField.keyboardType = .emailAddress
             cell.textField.addTarget(self, action: #selector(handleEmailChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
             } else {
@@ -230,8 +255,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         case 6:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.phone
+            cell.textField.keyboardType = .phonePad
             cell.textField.addTarget(self, action: #selector(handlePhoneChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
             } else {
@@ -240,7 +265,6 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         case 7:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.gender
             cell.textField.addTarget(self, action: #selector(handleGenderChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
@@ -249,8 +273,8 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
             }
             
         default:
-            cell.textField.placeholder = "User has not updated"
             cell.textField.text = userId?.age
+            cell.textField.keyboardType = .phonePad
             cell.textField.addTarget(self, action: #selector(handleAgeChange), for: .editingChanged)
             if self.friends.contains(userId?.uid ?? "") || userId?.uid == Auth.auth().currentUser?.uid{
             } else {
@@ -260,6 +284,70 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
         }
         
         return cell
+    }
+    
+    @objc fileprivate func maleButtonClicked(){
+        print("clicked")
+        DispatchQueue.main.async {
+        let sexButtons = SexCell(style: .default, reuseIdentifier: nil)
+        sexButtons.maleButton.setTitleColor(.red, for: .normal)
+        sexButtons.femaleButton.setTitleColor(.gray, for: .normal)
+        sexButtons.otherButton.setTitleColor(.gray, for: .normal)
+        }
+        
+    }
+    
+    @objc fileprivate func femaleButtonClicked(){
+        print("clicked2")
+        DispatchQueue.main.async {
+            let sexButtons = SexCell(style: .default, reuseIdentifier: nil)
+            sexButtons.maleButton.setTitleColor(.gray, for: .normal)
+            sexButtons.femaleButton.setTitleColor(.red, for: .normal)
+            sexButtons.otherButton.setTitleColor(.gray, for: .normal)
+            
+        }
+
+        
+    }
+    
+    @objc fileprivate func otherButtonClicked(){
+        print("clicked3")
+        DispatchQueue.main.async {
+        let sexButtons = SexCell(style: .default, reuseIdentifier: nil)
+        sexButtons.maleButton.setTitleColor(.gray, for: .normal)
+        sexButtons.femaleButton.setTitleColor(.gray, for: .normal)
+        sexButtons.otherButton.setTitleColor(.red, for: .normal)
+        }
+    }
+    
+    fileprivate let reportUser = ReportUser()
+    
+    @objc fileprivate func blockUser(){
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.error)
+        let alert = UIAlertController(title: "Block User?", message: "Would you like to block this User?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler:{(_: UIAlertAction!) in
+            self.reportUser.handleReport(uid: self.userId?.uid ?? "")
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil ))
+        self.present(alert, animated: true)
+        
+    }
+    @objc fileprivate func deleteProfile(){
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(.error)
+        let alert = UIAlertController(title: "Delete Account", message: "Are you sure you want to delete your profile?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler:{(_: UIAlertAction!) in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil ))
+        self.present(alert, animated: true)
+        
     }
     
     @objc fileprivate func handleNameChange(textField: UITextField){
@@ -328,13 +416,18 @@ class UserProfileViewController: UITableViewController, UINavigationControllerDe
                 print(err)
                 return
             }
-            print("Uploaded")
+            let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+            notificationFeedbackGenerator.prepare()
+            notificationFeedbackGenerator.notificationOccurred(.error)
+            let alert = UIAlertController(title: "Profile Saved", message: "You have successfully updated your profile!", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler:{(_: UIAlertAction!) in
+                self.navigationController?.popViewController(animated: true)
+            })
+            alert.addAction(okayAction)
+            self.present(alert, animated: true, completion: nil)
+            
+
         }
-           self.dismiss(animated: true, completion: {
-           print("Dismissal complete")
-        })
-         
-        
     }
     
     func didScanQRCode(code: String) {

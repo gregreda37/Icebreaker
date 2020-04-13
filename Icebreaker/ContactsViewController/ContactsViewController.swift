@@ -162,31 +162,6 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
         return cell
     }
 
-//    override func collectionView(_ collectionView:UICollectionView, didSelectItemAt indexPath: IndexPath){
-//        let user = posts[indexPath.item]
-//        let uid = user.uid ?? ""
-//        let popViewController = ContactCardViewController()
-//
-//        func generateQRCode(from string: String) -> UIImage? {
-//            let data = string.data(using: String.Encoding.ascii)
-//
-//            if let filter = CIFilter(name: "CIQRCodeGenerator") {
-//                filter.setValue(data, forKey: "inputMessage")
-//                let transform = CGAffineTransform(scaleX: 3, y: 3)
-//
-//                if let output = filter.outputImage?.transformed(by: transform) {
-//                    return UIImage(ciImage: output)
-//                }
-//            }
-//
-//            return nil
-//        }
-//
-//        let image = generateQRCode(from: uid)
-//        popViewController.profileImageView.image = image
-//        self.view.addSubview(popViewController)
-//    }
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
@@ -195,8 +170,8 @@ class ContactsViewController: UICollectionViewController,LoginViewControllerDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width-2
-        return CGSize(width: width, height: width/4)
+        let width = (view.frame.width-2) / 3
+        return CGSize(width: width, height: width)
     }
     
     func didFinishLoggingIn() {

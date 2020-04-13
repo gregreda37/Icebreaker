@@ -25,8 +25,6 @@ class RegistrationViewModel{
     var email: String?{ didSet{checkFormValidity()}}
     var confirmpassword: String? { didSet{checkFormValidity()}}
     var name: String?{ didSet{checkFormValidity()}}
-    var profession: String?{ didSet{checkFormValidity()}}
-    var phone: String?{ didSet{checkFormValidity()}}
     var password: String? { didSet{checkFormValidity()}}
 
 
@@ -53,10 +51,11 @@ class RegistrationViewModel{
         let docData: [String : Any] = [
             "uid": uid,
             "email": email!,
-            "contacts": [],
-            "username": name!,
-            "profession": profession!,
-            "phone": phone!
+            "contacts": ["Na8gDGZFeUWT6wP35IZP0OpimFh2"],
+            "name": name!,
+            "blockedUsers":[],
+            "coordinates":[40.80544535406943,-74.6063905074148],
+            "imageUrl1": ""
         ]
 
         Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
@@ -72,7 +71,7 @@ class RegistrationViewModel{
     
 
     fileprivate func checkFormValidity(){
-        let isFormValid = email?.isEmpty == false && password?.isEmpty == false && password == confirmpassword && phone?.isEmpty == false && profession?.isEmpty == false && name?.isEmpty == false
+        let isFormValid = email?.isEmpty == false && password?.isEmpty == false && password == confirmpassword && name?.isEmpty == false
         bindableIsFormValid.value = isFormValid
 
     }

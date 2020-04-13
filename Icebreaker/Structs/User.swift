@@ -24,6 +24,7 @@ struct User{
     var gender: String?
     var age: String?
     var city: String?
+    var blockedUsers: Array<String>?
     
     
     init(dictionary: [String: Any]) {
@@ -40,6 +41,7 @@ struct User{
         self.school = dictionary["school"] as? String ?? ""
         self.age = dictionary["age"] as? String ?? ""
         self.city = dictionary["city"] as? String ?? ""
+        self.blockedUsers = (dictionary["blockedUsers"] as? Array<String>)
     }
 
 }

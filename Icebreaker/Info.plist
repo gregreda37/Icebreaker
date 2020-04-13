@@ -16,6 +16,17 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.846119076724-049cpp95sbgv1mqj63jg6l9c0h9kkp73</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -24,18 +35,18 @@
 	<string>We need this to scan QR codes</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>How we connect you with local users</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>How we connect you with local users</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app saves photos and videos to your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app saves photos and videos to your photo library</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>How we connect you with local users</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

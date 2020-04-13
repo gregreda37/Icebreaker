@@ -17,7 +17,7 @@ class UserProfileCell: UICollectionViewCell,UIGestureRecognizerDelegate {
         didSet {
             
             self.usernameTextField.text = self.users?.name ?? ""
-            //setupProfileImage(uid: uid)
+            
             guard let postImageView = users?.imageUrl1 else {return}
             profileImageView.loadImage(urlString: postImageView)
             
@@ -26,16 +26,15 @@ class UserProfileCell: UICollectionViewCell,UIGestureRecognizerDelegate {
     
     let profileImageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.image = UIImage(named: "GregFace")
         return iv
     }()
 
     let usernameTextField: UITextField = {
         let tf = UITextField()
-        tf.text = "Greg Reda"
+        tf.text = ""
         tf.isUserInteractionEnabled = false
-        tf.textColor = UIColor.rgb(red: 248, green: 141, blue: 19)
-        tf.font = UIFont.boldSystemFont(ofSize: 16.0)
+        tf.textColor = .white
+        tf.font = UIFont.boldSystemFont(ofSize: 12.0)
         tf.contentMode = .scaleAspectFill
         tf.clipsToBounds = true
         return tf
@@ -49,14 +48,17 @@ class UserProfileCell: UICollectionViewCell,UIGestureRecognizerDelegate {
     override init(frame: CGRect){
         super.init(frame: frame)
 
+        addSubview(usernameTextField)
+        usernameTextField.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        usernameTextField.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        usernameTextField.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+
 
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-//        addSubview(usernameTextField)
-//        usernameTextField.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
-//
-        
+
+
         
     }
 

@@ -75,27 +75,6 @@ class RegistrationViewController: UIViewController, MFMailComposeViewControllerD
         return tf
     }()
 
-    let professionTextField: CustomTextField = {
-        let tf = CustomTextField(padding: 24, height: 44)
-        tf.placeholder = "Profession"
-        tf.backgroundColor = .white
-        tf.layer.shadowRadius = 3.0
-        tf.layer.shadowOpacity = 0.2
-        tf.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
-        return tf
-    }()
-    
-    let phoneNumberTextField: CustomTextField = {
-        let tf = CustomTextField(padding: 24, height: 44)
-        tf.placeholder = "Phone Number"
-        tf.keyboardType = .phonePad
-        tf.backgroundColor = .white
-        tf.layer.shadowRadius = 3.0
-        tf.layer.shadowOpacity = 0.2
-        tf.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
-        return tf
-    }()
-    
     let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Create Account", for: .normal)
@@ -156,44 +135,45 @@ class RegistrationViewController: UIViewController, MFMailComposeViewControllerD
             registrationViewModel.password = textField.text
         } else if textField == confirmpasswordTextField {
             registrationViewModel.confirmpassword = textField.text
-        } else if textField == nameTextField {
-            registrationViewModel.name = textField.text
-        } else if textField == professionTextField{
-            registrationViewModel.profession = textField.text
         } else {
-            registrationViewModel.phone = textField.text
-            
+            registrationViewModel.name = textField.text
         }
+        
     }
     
 
     
     let hud = JGProgressHUD(style: .dark)
     let registeringHUD = JGProgressHUD(style: .light)
+
+    @objc fileprivate func handleRegister(){
+        self.view.endEditing(true)
+
+        if passwordTextField.text == confirmpasswordTextField.text {
+            hud.textLabel.text = "Registering"
+            hud.show(in: view)
+            registrationViewModel.performRegistration{ [weak self] (err) in
+                if let err = err {
+                    self?.showHUDWithError(error: err)
+                    self!.hud.dismiss()
+                    return
+                }
+                self!.hud.dismiss()
+                self?.dismiss(animated: true, completion: nil)
+                }
+        } else {
+            self.showPasswordError()
+            
+        }
+    }
     
     @objc fileprivate func showPasswordError(){
-          let sendMailErrorALert = UIAlertController(title: "Password Error", message: "Password must contain 8 or more characters, a capital letter, a number and a special character", preferredStyle: .alert)
+          let sendMailErrorALert = UIAlertController(title: "Password Error", message: "Passwords do not match.", preferredStyle: .alert)
           let dismiss = UIAlertAction(title: "Ok", style: .default, handler: nil)
           sendMailErrorALert.addAction(dismiss)
           self.present(sendMailErrorALert, animated: true, completion: nil)
       }
     
-    @objc fileprivate func handleRegister(){
-        self.view.endEditing(true)
-        hud.textLabel.text = "Registering"
-        hud.show(in: view)
-        registrationViewModel.performRegistration{ [weak self] (err) in
-            if let err = err {
-                self?.showHUDWithError(error: err)
-                self!.hud.dismiss()
-                return
-            }
-            self!.hud.dismiss()
-            self?.dismiss(animated: true, completion: nil)
-            }
-    
-           
-    }
 
     @objc fileprivate func handleEmailButton(){
         print("Emailing Contractor")
@@ -276,9 +256,8 @@ class RegistrationViewController: UIViewController, MFMailComposeViewControllerD
     }
     
     lazy var stackView = UIStackView(arrangedSubviews: [
+        LogoButton,
         nameTextField,
-        professionTextField,
-        phoneNumberTextField,
         emailTextField,
         passwordTextField,
         confirmpasswordTextField,

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CustomTextField: UITextField {
+class CustomTextField: UITextField, UITextFieldDelegate {
 
         let padding: CGFloat
         let height: CGFloat
@@ -21,6 +21,7 @@ class CustomTextField: UITextField {
             layer.cornerRadius = height / 2
             backgroundColor = .white
         }
+
         
         override func textRect(forBounds bounds: CGRect) -> CGRect {
             return bounds.insetBy(dx: padding, dy: 0)

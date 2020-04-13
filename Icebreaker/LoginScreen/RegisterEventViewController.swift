@@ -20,7 +20,6 @@ class RegisterEventViewController: UIViewController {
     let eventRegisterTextField: CustomTextField = {
         let tf = CustomTextField(padding: 24, height: 50)
         tf.placeholder = "Enter event Title"
-        tf.keyboardType = .emailAddress
         tf.autocapitalizationType = .none
         tf.layer.masksToBounds = false
         tf.layer.shadowRadius = 3.0
@@ -78,7 +77,6 @@ class RegisterEventViewController: UIViewController {
         verticalStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50))
         verticalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
-        
         setupTapGesture()
         setupNotificationObservers()
 
@@ -138,8 +136,11 @@ class RegisterEventViewController: UIViewController {
     @objc fileprivate func handleEvent(){
         let image = generateQRCode(from: eventRegisterTextField.text ?? "")
         profileImageView.image = image
+        
+        let trimmedEvent = eventRegisterTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         let docData: [String : Any] = [
-            "eventTitle": eventRegisterTextField.text ?? ""
+            "eventTitle": "\(trimmedEvent)|\(Auth.auth().currentUser?.uid ?? "")"
 
         ]
         
@@ -149,12 +150,14 @@ class RegisterEventViewController: UIViewController {
                 return
             }
         }
+        
+        savePhotoToCamera()
 
     }
     
     @objc fileprivate func handleReturn(){
         self.view.endEditing(true)
-        navigationController?.popViewController(animated: true)
+        self.dismiss(animated:true)
         
     }
     
